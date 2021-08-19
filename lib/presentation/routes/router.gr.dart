@@ -7,13 +7,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/splash/splash_page.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/sign_in/sign_in_page.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/notes_overview/notes_overview_page.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/note_form_page.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
+import 'package:reso_ddd/presentation/pages/splash/splash_page.dart';
+import 'package:reso_ddd/presentation/pages/sign_in/sign_in_page.dart';
+import 'package:reso_ddd/presentation/pages/notes/notes_overview/notes_overview_page.dart';
+import 'package:reso_ddd/presentation/pages/notes/note_form/note_form_page.dart';
+import 'package:reso_ddd/domain/notes/note.dart';
 
-class Router {
+class CustomRouter {
   static const splashPage = '/';
   static const signInPage = '/sign-in-page';
   static const notesOverviewPage = '/notes-overview-page';
@@ -22,22 +22,22 @@ class Router {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
-      case Router.splashPage:
+      case CustomRouter.splashPage:
         return MaterialPageRoute<dynamic>(
           builder: (_) => SplashPage(),
           settings: settings,
         );
-      case Router.signInPage:
+      case CustomRouter.signInPage:
         return MaterialPageRoute<dynamic>(
           builder: (_) => SignInPage(),
           settings: settings,
         );
-      case Router.notesOverviewPage:
+      case CustomRouter.notesOverviewPage:
         return MaterialPageRoute<dynamic>(
           builder: (_) => NotesOverviewPage().wrappedRoute,
           settings: settings,
         );
-      case Router.noteFormPage:
+      case CustomRouter.noteFormPage:
         if (hasInvalidArgs<NoteFormPageArguments>(args, isRequired: true)) {
           return misTypedArgsRoute<NoteFormPageArguments>(args);
         }

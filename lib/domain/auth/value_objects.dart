@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/failures.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_validators.dart';
+
+import '../core/failures.dart';
+import '../core/value_objects.dart';
+import '../core/value_validators.dart';
 
 class EmailAddress extends ValueObject<String> {
   @override

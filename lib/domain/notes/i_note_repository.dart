@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:kt_dart/collection.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note_failure.dart';
+import 'note.dart';
+import 'note_failure.dart';
 
 abstract class INoteRepository {
   Stream<Either<NoteFailure, KtList<Note>>> watchAll();

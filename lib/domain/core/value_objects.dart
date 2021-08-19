@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/common_interfaces.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/errors.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/failures.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_validators.dart';
+import 'common_interfaces.dart';
+import 'errors.dart';
+import 'failures.dart';
+import 'value_validators.dart';
 
 @immutable
 abstract class ValueObject<T> implements IValidatable {

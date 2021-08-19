@@ -1,4 +1,4 @@
-import 'package:finished_notes_firebase_ddd_course/domain/core/failures.dart';
+import 'failures.dart';
 
 class NotAuthenticatedError extends Error {}
 

@@ -2,13 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kt_dart/collection.dart';
-
-import 'package:finished_notes_firebase_ddd_course/domain/core/entity.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/failures.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/todo_item.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/value_objects.dart';
+import '../core/entity.dart';
+import '../core/failures.dart';
+import '../core/value_objects.dart';
+import 'todo_item.dart';
+import 'value_objects.dart';
+import 'value_objects.dart';
 
 part 'note.freezed.dart';
 

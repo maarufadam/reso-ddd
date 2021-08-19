@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/errors.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/i_auth_facade.dart';
-import 'package:finished_notes_firebase_ddd_course/injection.dart';
+import '../../domain/auth/i_auth_facade.dart';
+import '../../domain/core/errors.dart';
+import '../../injection.dart';
+
 export 'package:cloud_firestore/cloud_firestore.dart';
 
 extension FirestoreX on Firestore {

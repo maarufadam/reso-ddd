@@ -4,14 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note_failure.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/i_note_repository.dart';
-
-part 'note_actor_event.dart';
-part 'note_actor_state.dart';
+import '../../../domain/notes/i_note_repository.dart';
+import '../../../domain/notes/note.dart';
+import '../../../domain/notes/note_failure.dart';
 
 part 'note_actor_bloc.freezed.dart';
+part 'note_actor_event.dart';
+part 'note_actor_state.dart';
 
 @injectable
 class NoteActorBloc extends Bloc<NoteActorEvent, NoteActorState> {

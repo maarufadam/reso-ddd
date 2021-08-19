@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note_failure.dart';
+import '../../../../../domain/notes/note_failure.dart';
 
 class CriticalFailureDisplay extends StatelessWidget {
   final NoteFailure failure;

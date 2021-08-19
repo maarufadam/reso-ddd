@@ -4,13 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/user.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/i_auth_facade.dart';
 
-part 'auth_event.dart';
-part 'auth_state.dart';
+import '../../domain/auth/i_auth_facade.dart';
+import '../../domain/auth/user.dart';
 
 part 'auth_bloc.freezed.dart';
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

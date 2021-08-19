@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:finished_notes_firebase_ddd_course/application/notes/note_form/note_form_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/misc/build_context_x.dart';
 import 'package:kt_dart/collection.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/misc/todo_item_presentation_classes.dart';
+import '../../../../../application/notes/note_form/note_form_bloc.dart';
+import '../misc/build_context_x.dart';
+import '../misc/todo_item_presentation_classes.dart';
 
 class AddTodoTile extends StatelessWidget {
   const AddTodoTile({

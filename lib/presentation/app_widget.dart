@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/application/auth/auth_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/injection.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/routes/router.gr.dart';
+import '../application/auth/auth_bloc.dart';
+import '../injection.dart';
+import 'routes/router.gr.dart';
 
 class AppWidget extends StatelessWidget {
   @override
@@ -35,9 +35,9 @@ class AppWidget extends StatelessWidget {
             ),
           ),
         ),
-        onGenerateRoute: Router.onGenerateRoute,
-        initialRoute: Router.splashPage,
-        navigatorKey: Router.navigator.key,
+        onGenerateRoute: CustomRouter.onGenerateRoute,
+        initialRoute: CustomRouter.splashPage,
+        navigatorKey: CustomRouter.navigator.key,
       ),
     );
   }

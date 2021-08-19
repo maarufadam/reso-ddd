@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/auth_failure.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/i_auth_facade.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/user.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/infrastructure/auth/firebase_user_mapper.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/auth/i_auth_facade.dart';
+import '../../domain/auth/auth_failure.dart';
+import '../../domain/auth/i_auth_facade.dart';
+import '../../domain/auth/user.dart';
+import '../../domain/auth/value_objects.dart';
+import 'firebase_user_mapper.dart';
 
 @prod
 @lazySingleton

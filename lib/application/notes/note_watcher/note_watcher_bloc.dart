@@ -6,14 +6,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kt_dart/collection.dart';
 import 'package:meta/meta.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note_failure.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/i_note_repository.dart';
-
-part 'note_watcher_event.dart';
-part 'note_watcher_state.dart';
+import '../../../domain/notes/i_note_repository.dart';
+import '../../../domain/notes/note.dart';
+import '../../../domain/notes/note_failure.dart';
 
 part 'note_watcher_bloc.freezed.dart';
+part 'note_watcher_event.dart';
+part 'note_watcher_state.dart';
 
 @injectable
 class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {

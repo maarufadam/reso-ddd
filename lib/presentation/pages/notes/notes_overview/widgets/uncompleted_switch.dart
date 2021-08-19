@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../../../../../application/notes/note_watcher/note_watcher_bloc.dart';
+import '../misc/icon_switch_data.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:time/time.dart';
-import 'package:finished_notes_firebase_ddd_course/application/notes/note_watcher/note_watcher_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/notes_overview/misc/icon_switch_data.dart';
 
 class UncompletedSwitch extends HookWidget {
   @override

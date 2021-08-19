@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
-
-import 'package:finished_notes_firebase_ddd_course/application/notes/note_form/note_form_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
-import 'package:finished_notes_firebase_ddd_course/injection.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/widgets/add_todo_tile_widget.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/widgets/body_field_widget.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/widgets/color_field_widget.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/misc/todo_item_presentation_classes.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/note_form/widgets/todo_list_widget.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/routes/router.gr.dart';
+import '../../../../application/notes/note_form/note_form_bloc.dart';
+import '../../../../domain/notes/note.dart';
+import '../../../../injection.dart';
+import 'misc/todo_item_presentation_classes.dart';
+import 'widgets/add_todo_tile_widget.dart';
+import 'widgets/body_field_widget.dart';
+import 'widgets/color_field_widget.dart';
+import 'widgets/todo_list_widget.dart';
+import '../../../routes/router.gr.dart';
 
 class NoteFormPage extends HookWidget {
   final Note editedNote;
@@ -52,8 +51,8 @@ class NoteFormPage extends HookWidget {
                 (_) {
                   // Can't be just a simple pop. If another route (like a Flushbar) is on top of stack, we'll need to pop even that to get to
                   // the overview page.
-                  Router.navigator.popUntil((route) =>
-                      route.settings.name == Router.notesOverviewPage);
+                  CustomRouter.navigator.popUntil((route) =>
+                      route.settings.name == CustomRouter.notesOverviewPage);
                 },
               );
             },

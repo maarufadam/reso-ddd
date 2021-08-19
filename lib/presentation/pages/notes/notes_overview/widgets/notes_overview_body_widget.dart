@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/application/notes/note_watcher/note_watcher_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/notes_overview/widgets/critical_failure_display_widget.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/notes_overview/widgets/error_note_card_widget.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/pages/notes/notes_overview/widgets/note_card_widget.dart';
+import '../../../../../application/notes/note_watcher/note_watcher_bloc.dart';
+import '../../../../../domain/notes/note.dart';
+import 'critical_failure_display_widget.dart';
+import 'error_note_card_widget.dart';
+import 'note_card_widget.dart';
 
 class NotesOverviewBody extends StatelessWidget {
   @override

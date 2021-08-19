@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/application/notes/note_actor/note_actor_bloc.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/todo_item.dart';
-import 'package:finished_notes_firebase_ddd_course/presentation/routes/router.gr.dart';
 import 'package:kt_dart/collection.dart';
+import '../../../../../application/notes/note_actor/note_actor_bloc.dart';
+import '../../../../../domain/notes/note.dart';
+import '../../../../../domain/notes/todo_item.dart';
+import '../../../../routes/router.gr.dart';
 
 class NoteCard extends StatelessWidget {
   const NoteCard({
@@ -23,8 +23,8 @@ class NoteCard extends StatelessWidget {
       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: InkWell(
         onTap: () {
-          Router.navigator.pushNamed(
-            Router.noteFormPage,
+          CustomRouter.navigator.pushNamed(
+            CustomRouter.noteFormPage,
             arguments: NoteFormPageArguments(editedNote: note),
           );
         },

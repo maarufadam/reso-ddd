@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
 import 'package:kt_dart/collection.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/failures.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_transformers.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_validators.dart';
+import '../core/failures.dart';
+import '../core/value_objects.dart';
+import '../core/value_transformers.dart';
+import '../core/value_validators.dart';
 
 class NoteBody extends ValueObject<String> {
   @override

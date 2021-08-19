@@ -1,13 +1,13 @@
 import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/note.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/todo_item.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/notes/value_objects.dart';
-import 'package:finished_notes_firebase_ddd_course/infrastructure/core/firestore_helpers.dart';
 import 'package:kt_dart/collection.dart';
+import '../../domain/core/value_objects.dart';
+import '../../domain/notes/note.dart';
+import '../../domain/notes/todo_item.dart';
+import '../../domain/notes/value_objects.dart';
+import '../../domain/notes/value_objects.dart';
+import '../core/firestore_helpers.dart';
 
 part 'note_dtos.freezed.dart';
 part 'note_dtos.g.dart';

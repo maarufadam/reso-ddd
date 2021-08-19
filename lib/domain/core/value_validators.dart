@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kt_dart/collection.dart';
-import 'package:finished_notes_firebase_ddd_course/domain/core/failures.dart';
+import 'failures.dart';
 
 Either<ValueFailure<String>, String> validateMaxStringLength(
   String input,
