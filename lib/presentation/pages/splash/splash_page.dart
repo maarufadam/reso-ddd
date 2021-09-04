@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../application/auth/auth_bloc.dart';
-import '../../routes/router.gr.dart';
+import '../../../injection.dart';
+import '../../routes/app_router.gr.dart';
 
 class SplashPage extends StatelessWidget {
   @override
@@ -10,10 +11,10 @@ class SplashPage extends StatelessWidget {
       listener: (context, state) {
         state.map(
           initial: (_) {},
-          authenticated: (_) => CustomRouter.navigator
-              .pushReplacementNamed(CustomRouter.notesOverviewPage),
-          unauthenticated: (_) => CustomRouter.navigator
-              .pushReplacementNamed(CustomRouter.signInPage),
+          authenticated: (_) =>
+              getIt<AppRouter>().replace(const NotesOverviewRoute()),
+          unauthenticated: (_) =>
+              getIt<AppRouter>().replace(const SignInRoute()),
         );
       },
       child: _PageWidget(),

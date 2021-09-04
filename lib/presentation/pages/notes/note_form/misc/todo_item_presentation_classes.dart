@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kt_dart/collection.dart';
+import 'package:kt_dart/kt.dart';
 import '../../../../../domain/core/value_objects.dart';
 import '../../../../../domain/notes/todo_item.dart';
 import '../../../../../domain/notes/value_objects.dart';
@@ -13,12 +12,14 @@ class FormTodos extends ValueNotifier<KtList<TodoItemPrimitive>> {
 }
 
 @freezed
-abstract class TodoItemPrimitive with _$TodoItemPrimitive {
+class TodoItemPrimitive with _$TodoItemPrimitive {
   const factory TodoItemPrimitive({
-    @required UniqueId id,
-    @required String name,
-    @required bool done,
+    required UniqueId id,
+    required String name,
+    required bool done,
   }) = _TodoItemPrimitive;
+
+  const TodoItemPrimitive._(); // Added Constructor
 
   factory TodoItemPrimitive.empty() => TodoItemPrimitive(
         id: UniqueId(),
@@ -29,13 +30,10 @@ abstract class TodoItemPrimitive with _$TodoItemPrimitive {
   factory TodoItemPrimitive.fromDomain(TodoItem todoItemValue) =>
       TodoItemPrimitive(
         id: todoItemValue.id,
-        // If we somehow get to this point, we missed something in other parts of the UI. It's better to throw an Error.
         name: todoItemValue.name.getOrCrash(),
         done: todoItemValue.done,
       );
-}
 
-extension TodoItemPrimitiveX on TodoItemPrimitive {
   TodoItem toDomain() {
     return TodoItem(
       id: id,

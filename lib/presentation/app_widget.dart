@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../application/auth/auth_bloc.dart';
 import '../injection.dart';
-import 'routes/router.gr.dart';
+import 'routes/app_router.gr.dart';
 
 class AppWidget extends StatelessWidget {
   @override
@@ -14,9 +14,11 @@ class AppWidget extends StatelessWidget {
               getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
         ),
       ],
-      child: MaterialApp(
-        title: 'Workout Tracker',
+      child: MaterialApp.router(
+        title: 'Notes App',
         debugShowCheckedModeBanner: false,
+        routerDelegate: getIt<AppRouter>().delegate(),
+        routeInformationParser: getIt<AppRouter>().defaultRouteParser(),
         theme: ThemeData.light().copyWith(
           primaryColor: Colors.green[800],
           accentColor: Colors.blueAccent,
@@ -35,9 +37,6 @@ class AppWidget extends StatelessWidget {
             ),
           ),
         ),
-        onGenerateRoute: CustomRouter.onGenerateRoute,
-        initialRoute: CustomRouter.splashPage,
-        navigatorKey: CustomRouter.navigator.key,
       ),
     );
   }

@@ -1,19 +1,19 @@
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../application/auth/auth_bloc.dart';
 import '../../../../application/auth/sign_in_form/sign_in_form_bloc.dart';
-import '../../../routes/router.gr.dart';
-import 'package:styled_widget/styled_widget.dart';
+import '../../../../injection.dart';
+import '../../../routes/app_router.gr.dart';
 
 class SignInForm extends StatelessWidget {
-  const SignInForm({Key key}) : super(key: key);
+  const SignInForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInFormBloc, SignInFormState>(
       listener: (context, state) {
-        state.authFailureOrSuccessOption.fold(
+        context.read<SignInFormBloc>().state.authFailureOrSuccessOption.fold(
           () {},
           (either) {
             either.fold(
@@ -22,18 +22,21 @@ class SignInForm extends StatelessWidget {
                   message: failure.map(
                     // Use localized strings here in your apps
                     cancelledByUser: (_) => 'Cancelled',
+                    signInFailed: (_) => 'Failed to sign-in',
                     serverError: (_) => 'Server error',
                     emailAlreadyInUse: (_) => 'Email already in use',
+                    emailDoesNotExist: (_) => 'Email does not exist',
+                    emailDisabled: (_) => 'Email disabled',
+                    invalidEmail: (_) => 'Invalid email',
                     invalidEmailAndPasswordCombination: (_) =>
                         'Invalid email and password combination',
                   ),
                 ).show(context);
               },
               (_) {
-                CustomRouter.navigator
-                    .pushReplacementNamed(CustomRouter.notesOverviewPage);
+                getIt<AppRouter>().replace(const NotesOverviewRoute());
                 context
-                    .bloc<AuthBloc>()
+                    .read<AuthBloc>()
                     .add(const AuthEvent.authCheckRequested());
               },
             );
@@ -42,25 +45,32 @@ class SignInForm extends StatelessWidget {
       },
       builder: (context, state) {
         return Form(
-          autovalidate: state.showErrorMessages,
+          autovalidateMode:
+              context.watch<SignInFormBloc>().state.showErrorMessages == true
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
           child: ListView(
             padding: const EdgeInsets.all(8.0),
             children: <Widget>[
               const Text(
                 '📝',
-              ).textAlignment(TextAlign.center).fontSize(130),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 130),
+              ),
               const SizedBox(height: 8),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.email),
                   labelText: 'Email',
                 ),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 onChanged: (value) => context
-                    .bloc<SignInFormBloc>()
+                    .read<SignInFormBloc>()
                     .add(SignInFormEvent.emailChanged(value)),
                 validator: (_) => context
-                    .bloc<SignInFormBloc>()
+                    .watch<SignInFormBloc>()
                     .state
                     .emailAddress
                     .value
@@ -75,17 +85,19 @@ class SignInForm extends StatelessWidget {
               const SizedBox(height: 8),
               TextFormField(
                 // controller: passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.lock),
                   labelText: 'Password',
                 ),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
                 obscureText: true,
                 autocorrect: false,
                 onChanged: (value) => context
-                    .bloc<SignInFormBloc>()
+                    .read<SignInFormBloc>()
                     .add(SignInFormEvent.passwordChanged(value)),
                 validator: (_) =>
-                    context.bloc<SignInFormBloc>().state.password.value.fold(
+                    context.watch<SignInFormBloc>().state.password.value.fold(
                           (f) => f.maybeMap(
                             shortPassword: (_) => 'Short password',
                             orElse: () => null,
@@ -97,8 +109,8 @@ class SignInForm extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: FlatButton(
-                      onPressed: () => context.bloc<SignInFormBloc>().add(
+                    child: TextButton(
+                      onPressed: () => context.read<SignInFormBloc>().add(
                           const SignInFormEvent
                               .signInWithEmailAndPasswordPressed()),
                       child: const Text('SIGN IN'),
@@ -106,27 +118,31 @@ class SignInForm extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: FlatButton(
-                      onPressed: () => context.bloc<SignInFormBloc>().add(
-                          const SignInFormEvent
-                              .registerWithEmailAndPasswordPressed()),
+                    child: TextButton(
+                      onPressed: () {
+                        return context.read<SignInFormBloc>().add(
+                            const SignInFormEvent
+                                .registerWithEmailAndPasswordPressed());
+                      },
                       child: const Text('REGISTER'),
                     ),
                   ),
                 ],
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () => context
-                    .bloc<SignInFormBloc>()
+                    .read<SignInFormBloc>()
                     .add(const SignInFormEvent.signInWithGooglePressed()),
-                color: Colors.lightBlue,
+                style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
                 child: const Text(
                   'SIGN IN WITH GOOGLE',
-                ).textColor(Colors.white).bold(),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
-              if (state.isSubmitting) ...[
+              if (context.watch<SignInFormBloc>().state.isSubmitting) ...[
                 const SizedBox(height: 8),
-                const LinearProgressIndicator(value: null),
+                const LinearProgressIndicator(),
               ]
             ],
           ),

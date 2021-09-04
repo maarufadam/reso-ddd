@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'todo_item_presentation_classes.dart';
 
@@ -7,19 +7,17 @@ part of 'todo_item_presentation_classes.dart';
 // FreezedGenerator
 // **************************************************************************
 
-mixin _$TodoItemPrimitive {
-  UniqueId get id;
-  String get name;
-  bool get done;
+T _$identity<T>(T value) => value;
 
-  TodoItemPrimitive copyWith({UniqueId id, String name, bool done});
-}
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+/// @nodoc
 class _$TodoItemPrimitiveTearOff {
   const _$TodoItemPrimitiveTearOff();
 
   _TodoItemPrimitive call(
-      {@required UniqueId id, @required String name, @required bool done}) {
+      {required UniqueId id, required String name, required bool done}) {
     return _TodoItemPrimitive(
       id: id,
       name: name,
@@ -28,16 +26,110 @@ class _$TodoItemPrimitiveTearOff {
   }
 }
 
+/// @nodoc
 const $TodoItemPrimitive = _$TodoItemPrimitiveTearOff();
 
-class _$_TodoItemPrimitive
-    with DiagnosticableTreeMixin
-    implements _TodoItemPrimitive {
+/// @nodoc
+mixin _$TodoItemPrimitive {
+  UniqueId get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  bool get done => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $TodoItemPrimitiveCopyWith<TodoItemPrimitive> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TodoItemPrimitiveCopyWith<$Res> {
+  factory $TodoItemPrimitiveCopyWith(
+          TodoItemPrimitive value, $Res Function(TodoItemPrimitive) then) =
+      _$TodoItemPrimitiveCopyWithImpl<$Res>;
+  $Res call({UniqueId id, String name, bool done});
+}
+
+/// @nodoc
+class _$TodoItemPrimitiveCopyWithImpl<$Res>
+    implements $TodoItemPrimitiveCopyWith<$Res> {
+  _$TodoItemPrimitiveCopyWithImpl(this._value, this._then);
+
+  final TodoItemPrimitive _value;
+  // ignore: unused_field
+  final $Res Function(TodoItemPrimitive) _then;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? done = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as UniqueId,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      done: done == freezed
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$TodoItemPrimitiveCopyWith<$Res>
+    implements $TodoItemPrimitiveCopyWith<$Res> {
+  factory _$TodoItemPrimitiveCopyWith(
+          _TodoItemPrimitive value, $Res Function(_TodoItemPrimitive) then) =
+      __$TodoItemPrimitiveCopyWithImpl<$Res>;
+  @override
+  $Res call({UniqueId id, String name, bool done});
+}
+
+/// @nodoc
+class __$TodoItemPrimitiveCopyWithImpl<$Res>
+    extends _$TodoItemPrimitiveCopyWithImpl<$Res>
+    implements _$TodoItemPrimitiveCopyWith<$Res> {
+  __$TodoItemPrimitiveCopyWithImpl(
+      _TodoItemPrimitive _value, $Res Function(_TodoItemPrimitive) _then)
+      : super(_value, (v) => _then(v as _TodoItemPrimitive));
+
+  @override
+  _TodoItemPrimitive get _value => super._value as _TodoItemPrimitive;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? done = freezed,
+  }) {
+    return _then(_TodoItemPrimitive(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as UniqueId,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      done: done == freezed
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_TodoItemPrimitive extends _TodoItemPrimitive {
   const _$_TodoItemPrimitive(
-      {@required this.id, @required this.name, @required this.done})
-      : assert(id != null),
-        assert(name != null),
-        assert(done != null);
+      {required this.id, required this.name, required this.done})
+      : super._();
 
   @override
   final UniqueId id;
@@ -47,18 +139,8 @@ class _$_TodoItemPrimitive
   final bool done;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'TodoItemPrimitive(id: $id, name: $name, done: $done)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'TodoItemPrimitive'))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('done', done));
   }
 
   @override
@@ -80,33 +162,27 @@ class _$_TodoItemPrimitive
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(done);
 
+  @JsonKey(ignore: true)
   @override
-  _$_TodoItemPrimitive copyWith({
-    Object id = freezed,
-    Object name = freezed,
-    Object done = freezed,
-  }) {
-    return _$_TodoItemPrimitive(
-      id: id == freezed ? this.id : id as UniqueId,
-      name: name == freezed ? this.name : name as String,
-      done: done == freezed ? this.done : done as bool,
-    );
-  }
+  _$TodoItemPrimitiveCopyWith<_TodoItemPrimitive> get copyWith =>
+      __$TodoItemPrimitiveCopyWithImpl<_TodoItemPrimitive>(this, _$identity);
 }
 
-abstract class _TodoItemPrimitive implements TodoItemPrimitive {
+abstract class _TodoItemPrimitive extends TodoItemPrimitive {
   const factory _TodoItemPrimitive(
-      {@required UniqueId id,
-      @required String name,
-      @required bool done}) = _$_TodoItemPrimitive;
+      {required UniqueId id,
+      required String name,
+      required bool done}) = _$_TodoItemPrimitive;
+  const _TodoItemPrimitive._() : super._();
 
   @override
-  UniqueId get id;
+  UniqueId get id => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  bool get done;
-
+  bool get done => throw _privateConstructorUsedError;
   @override
-  _TodoItemPrimitive copyWith({UniqueId id, String name, bool done});
+  @JsonKey(ignore: true)
+  _$TodoItemPrimitiveCopyWith<_TodoItemPrimitive> get copyWith =>
+      throw _privateConstructorUsedError;
 }

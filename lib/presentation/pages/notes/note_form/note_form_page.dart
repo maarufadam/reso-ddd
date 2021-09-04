@@ -1,25 +1,26 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
 import '../../../../application/notes/note_form/note_form_bloc.dart';
 import '../../../../domain/notes/note.dart';
 import '../../../../injection.dart';
-import 'misc/todo_item_presentation_classes.dart';
 import 'widgets/add_todo_tile_widget.dart';
 import 'widgets/body_field_widget.dart';
 import 'widgets/color_field_widget.dart';
 import 'widgets/todo_list_widget.dart';
-import '../../../routes/router.gr.dart';
+import '../../../routes/app_router.gr.dart';
+import 'package:provider/provider.dart';
+
+import 'misc/todo_item_presentation_classes.dart';
 
 class NoteFormPage extends HookWidget {
-  final Note editedNote;
+  final Note? editedNote;
 
   const NoteFormPage({
-    Key key,
-    @required this.editedNote,
+    Key? key,
+    this.editedNote,
   }) : super(key: key);
 
   @override
@@ -51,8 +52,8 @@ class NoteFormPage extends HookWidget {
                 (_) {
                   // Can't be just a simple pop. If another route (like a Flushbar) is on top of stack, we'll need to pop even that to get to
                   // the overview page.
-                  CustomRouter.navigator.popUntil((route) =>
-                      route.settings.name == CustomRouter.notesOverviewPage);
+                  getIt<AppRouter>().popUntil((route) =>
+                      route.settings.name == NotesOverviewRoute.name);
                 },
               );
             },
@@ -76,8 +77,8 @@ class SavingInProgressOverlay extends StatelessWidget {
   final bool isSaving;
 
   const SavingInProgressOverlay({
-    Key key,
-    @required this.isSaving,
+    Key? key,
+    required this.isSaving,
   }) : super(key: key);
 
   @override
@@ -99,7 +100,7 @@ class SavingInProgressOverlay extends StatelessWidget {
               Text(
                 'Saving',
                 // Not within a Scaffold. We have to get the TextStyle from a theme ourselves.
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       color: Colors.white,
                       fontSize: 16,
                     ),
@@ -114,7 +115,7 @@ class SavingInProgressOverlay extends StatelessWidget {
 
 class NoteFormPageScaffold extends StatelessWidget {
   const NoteFormPageScaffold({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -122,7 +123,7 @@ class NoteFormPageScaffold extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: BlocBuilder<NoteFormBloc, NoteFormState>(
-            condition: (p, c) => p.isEditing != c.isEditing,
+            buildWhen: (p, c) => p.isEditing != c.isEditing,
             builder: (context, state) =>
                 Text(state.isEditing ? 'Edit a note' : 'Create a note'),
           ),
@@ -130,10 +131,10 @@ class NoteFormPageScaffold extends StatelessWidget {
             Builder(
               builder: (context) {
                 return IconButton(
-                  icon: Icon(Icons.check),
+                  icon: const Icon(Icons.check),
                   onPressed: () {
                     context
-                        .bloc<NoteFormBloc>()
+                        .read<NoteFormBloc>()
                         .add(const NoteFormEvent.saved());
                   },
                 );
@@ -142,7 +143,7 @@ class NoteFormPageScaffold extends StatelessWidget {
           ],
         ),
         body: BlocBuilder<NoteFormBloc, NoteFormState>(
-          condition: (p, c) => p.showErrorMessages != c.showErrorMessages,
+          buildWhen: (p, c) => p.showErrorMessages != c.showErrorMessages,
           builder: (context, state) {
             return ChangeNotifierProvider(
               // State for the todo list.
@@ -152,7 +153,11 @@ class NoteFormPageScaffold extends StatelessWidget {
               // primitive state ourselves. After all, there isn't a pre-built widget for managing the values multiple checkboxes and text fields
               create: (_) => FormTodos(),
               child: Form(
-                autovalidate: state.showErrorMessages,
+                autovalidateMode:
+                    context.watch<NoteFormBloc>().state.showErrorMessages ==
+                            true
+                        ? AutovalidateMode.onUserInteraction
+                        : AutovalidateMode.disabled,
                 child: const CustomScrollView(
                   slivers: <Widget>[
                     SliverToBoxAdapter(child: BodyField()),

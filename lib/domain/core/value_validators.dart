@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kt_dart/collection.dart';
+
 import 'failures.dart';
 
 Either<ValueFailure<String>, String> validateMaxStringLength(
@@ -47,7 +48,7 @@ Either<ValueFailure<KtList<T>>, KtList<T>> validateMaxListLength<T>(
 Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   // Maybe not the most robust way of email validation but it's good enough
   const emailRegex =
-      r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
+      r"""^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}""";
   if (RegExp(emailRegex).hasMatch(input)) {
     return right(input);
   } else {

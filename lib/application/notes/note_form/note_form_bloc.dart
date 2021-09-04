@@ -5,8 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kt_dart/collection.dart';
-import 'package:meta/meta.dart';
+import 'package:kt_dart/kt.dart';
 import '../../../domain/notes/i_note_repository.dart';
 import '../../../domain/notes/note.dart';
 import '../../../domain/notes/note_failure.dart';
@@ -21,10 +20,7 @@ part 'note_form_state.dart';
 class NoteFormBloc extends Bloc<NoteFormEvent, NoteFormState> {
   final INoteRepository _noteRepository;
 
-  NoteFormBloc(this._noteRepository);
-
-  @override
-  NoteFormState get initialState => NoteFormState.initial();
+  NoteFormBloc(this._noteRepository) : super(NoteFormState.initial());
 
   @override
   Stream<NoteFormState> mapEventToState(
@@ -66,7 +62,7 @@ class NoteFormBloc extends Bloc<NoteFormEvent, NoteFormState> {
         );
       },
       saved: (e) async* {
-        Either<NoteFailure, Unit> failureOrSuccess;
+        Either<NoteFailure, Unit>? failureOrSuccess;
 
         yield state.copyWith(
           isSaving: true,

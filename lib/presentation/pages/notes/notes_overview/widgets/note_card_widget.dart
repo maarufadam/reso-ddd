@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kt_dart/collection.dart';
+
+import '../../../../../injection.dart';
+import '../../../../routes/app_router.gr.dart';
+import 'package:kt_dart/kt.dart';
+
 import '../../../../../application/notes/note_actor/note_actor_bloc.dart';
 import '../../../../../domain/notes/note.dart';
 import '../../../../../domain/notes/todo_item.dart';
-import '../../../../routes/router.gr.dart';
 
 class NoteCard extends StatelessWidget {
   const NoteCard({
-    Key key,
-    @required this.note,
+    Key? key,
+    required this.note,
   }) : super(key: key);
 
   final Note note;
@@ -23,13 +26,10 @@ class NoteCard extends StatelessWidget {
       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: InkWell(
         onTap: () {
-          CustomRouter.navigator.pushNamed(
-            CustomRouter.noteFormPage,
-            arguments: NoteFormPageArguments(editedNote: note),
-          );
+          getIt<AppRouter>().push(NoteFormRoute(editedNote: note));
         },
         onLongPress: () {
-          final noteActorBloc = context.bloc<NoteActorBloc>();
+          final noteActorBloc = context.read<NoteActorBloc>();
           showDialog(
             context: context,
             builder: (context) {
@@ -43,11 +43,11 @@ class NoteCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       onPressed: () => Navigator.pop(context),
                       child: const Text('CANCEL'),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         noteActorBloc.add(NoteActorEvent.deleted(note));
                         Navigator.pop(context);
@@ -96,7 +96,7 @@ class NoteCard extends StatelessWidget {
 class TodoDisplay extends StatelessWidget {
   final TodoItem todo;
 
-  const TodoDisplay({Key key, this.todo}) : super(key: key);
+  const TodoDisplay({Key? key, required this.todo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

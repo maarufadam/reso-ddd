@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../application/notes/note_form/note_form_bloc.dart';
-import '../../../../../domain/core/value_objects.dart';
 import '../../../../../domain/notes/value_objects.dart';
 
 class ColorField extends StatelessWidget {
   const ColorField({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NoteFormBloc, NoteFormState>(
-      condition: (p, c) => p.note.color != c.note.color,
+      buildWhen: (p, c) => p.note.color != c.note.color,
       builder: (context, state) {
-        return Container(
+        return SizedBox(
           height: 80,
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -30,7 +29,7 @@ class ColorField extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   context
-                      .bloc<NoteFormBloc>()
+                      .read<NoteFormBloc>()
                       .add(NoteFormEvent.colorChanged(itemColor));
                 },
                 child: Material(
@@ -45,7 +44,7 @@ class ColorField extends StatelessWidget {
                           : BorderSide.none,
                     ),
                   ),
-                  child: Container(
+                  child: const SizedBox(
                     width: 50,
                     height: 50,
                   ),

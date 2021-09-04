@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../domain/notes/note.dart';
 
 class ErrorNoteCard extends StatelessWidget {
   final Note note;
 
   const ErrorNoteCard({
-    Key key,
-    @required this.note,
+    Key? key,
+    required this.note,
   }) : super(key: key);
 
   @override
@@ -23,7 +24,7 @@ class ErrorNoteCard extends StatelessWidget {
               style: Theme.of(context)
                   .primaryTextTheme
                   .bodyText2
-                  .copyWith(fontSize: 18),
+                  ?.copyWith(fontSize: 18),
             ),
             const SizedBox(height: 2),
             Text(

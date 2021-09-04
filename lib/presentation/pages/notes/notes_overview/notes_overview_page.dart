@@ -1,5 +1,5 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -8,23 +8,26 @@ import '../../../../application/notes/note_actor/note_actor_bloc.dart';
 import '../../../../application/notes/note_watcher/note_watcher_bloc.dart';
 import '../../../../injection.dart';
 import 'widgets/notes_overview_body_widget.dart';
+import '../../../routes/app_router.gr.dart';
+
 import 'widgets/uncompleted_switch.dart';
-import '../../../routes/router.gr.dart';
 
 class NotesOverviewPage extends HookWidget implements AutoRouteWrapper {
   @override
-  Widget get wrappedRoute => MultiBlocProvider(
-        providers: [
-          BlocProvider<NoteWatcherBloc>(
-            create: (context) => getIt<NoteWatcherBloc>()
-              ..add(const NoteWatcherEvent.watchAllStarted()),
-          ),
-          BlocProvider<NoteActorBloc>(
-            create: (context) => getIt<NoteActorBloc>(),
-          ),
-        ],
-        child: this,
-      );
+  Widget wrappedRoute(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<NoteWatcherBloc>(
+          create: (context) => getIt<NoteWatcherBloc>()
+            ..add(const NoteWatcherEvent.watchAllStarted()),
+        ),
+        BlocProvider<NoteActorBloc>(
+          create: (context) => getIt<NoteActorBloc>(),
+        ),
+      ],
+      child: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +36,8 @@ class NotesOverviewPage extends HookWidget implements AutoRouteWrapper {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             state.maybeMap(
-              unauthenticated: (_) => CustomRouter.navigator
-                  .pushReplacementNamed(CustomRouter.signInPage),
+              unauthenticated: (_) =>
+                  getIt<AppRouter>().replace(const SignInRoute()),
               orElse: () {},
             );
           },
@@ -63,9 +66,9 @@ class NotesOverviewPage extends HookWidget implements AutoRouteWrapper {
         appBar: AppBar(
           title: const Text('Notes'),
           leading: IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              context.bloc<AuthBloc>().add(const AuthEvent.signedOut());
+              context.read<AuthBloc>().add(const AuthEvent.signedOut());
             },
           ),
           actions: <Widget>[
@@ -75,12 +78,9 @@ class NotesOverviewPage extends HookWidget implements AutoRouteWrapper {
         body: NotesOverviewBody(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            CustomRouter.navigator.pushNamed(
-              CustomRouter.noteFormPage,
-              arguments: NoteFormPageArguments(editedNote: null),
-            );
+            getIt<AppRouter>().push(NoteFormRoute());
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
     );

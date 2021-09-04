@@ -1,38 +1,41 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 import '../../domain/auth/auth_failure.dart';
+
+import '../../domain/auth/custom_user.dart';
 import '../../domain/auth/i_auth_facade.dart';
-import '../../domain/auth/user.dart';
 import '../../domain/auth/value_objects.dart';
+
 import 'firebase_user_mapper.dart';
 
+@Injectable(as: IAuthFacade)
 @prod
 @lazySingleton
-@RegisterAs(IAuthFacade)
 class FirebaseAuthFacade implements IAuthFacade {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
-  final FirebaseUserMapper _firebaseUserMapper;
+  // final FirebaseUserMapper _firebaseUserMapper;
 
   FirebaseAuthFacade(
     this._firebaseAuth,
     this._googleSignIn,
-    this._firebaseUserMapper,
+    // this._firebaseUserMapper,
   );
 
   @override
-  Future<Option<User>> getSignedInUser() async => _firebaseAuth
-      .currentUser()
-      .then((u) => optionOf(_firebaseUserMapper.toDomain(u)));
+  Future<Option<CustomUser>> getSignedInUser() async {
+    // final User? _firebaseUser = _firebaseAuth.currentUser;
+    // return optionOf(_firebaseUserMapper.toDomain(_firebaseUser));
+
+    return optionOf(_firebaseAuth.currentUser?.toDomain());
+  }
 
   @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
-    @required EmailAddress emailAddress,
-    @required Password password,
+    required EmailAddress emailAddress,
+    required Password password,
   }) async {
     final emailAddressStr = emailAddress.value.getOrElse(() => 'INVALID EMAIL');
     final passwordStr = password.value.getOrElse(() => 'INVALID PASSWORD');
@@ -43,9 +46,11 @@ class FirebaseAuthFacade implements IAuthFacade {
             password: passwordStr,
           )
           .then((_) => right(unit));
-    } on PlatformException catch (e) {
-      if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
         return left(const AuthFailure.emailAlreadyInUse());
+      } else if (e.code == 'invalid-email') {
+        return left(const AuthFailure.invalidEmail());
       } else {
         return left(const AuthFailure.serverError());
       }
@@ -54,8 +59,8 @@ class FirebaseAuthFacade implements IAuthFacade {
 
   @override
   Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
-    @required EmailAddress emailAddress,
-    @required Password password,
+    required EmailAddress emailAddress,
+    required Password password,
   }) async {
     final emailAddressStr = emailAddress.value.getOrElse(() => 'INVALID EMAIL');
     final passwordStr = password.value.getOrElse(() => 'INVALID PASSWORD');
@@ -66,30 +71,43 @@ class FirebaseAuthFacade implements IAuthFacade {
             password: passwordStr,
           )
           .then((_) => right(unit));
-    } on PlatformException catch (e) {
-      if (e.code == 'ERROR_WRONG_PASSWORD' ||
-          e.code == 'ERROR_USER_NOT_FOUND') {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return left(const AuthFailure.emailDoesNotExist());
+      } else if (e.code == 'wrong-password' || e.code == 'invalid-email') {
         return left(const AuthFailure.invalidEmailAndPasswordCombination());
+      } else if (e.code == 'user-disabled') {
+        return left(const AuthFailure.emailDisabled());
+      } else {
+        return left(const AuthFailure.serverError());
       }
-      return left(const AuthFailure.serverError());
     }
   }
 
   @override
   Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
     try {
-      final googleUser = await _googleSignIn.signIn();
+      GoogleSignInAccount? googleUser;
+      try {
+        googleUser = await _googleSignIn.signIn();
+      } on PlatformException catch (e) {
+        if (e.code == 'sign_in_failed') {
+          return left(const AuthFailure.signInFailed());
+        }
+      }
 
       if (googleUser == null) {
         return left(const AuthFailure.cancelledByUser());
       }
 
       final googleAuthentication = await googleUser.authentication;
-      final authCredential = GoogleAuthProvider.getCredential(
+
+      final authCredential = GoogleAuthProvider.credential(
         accessToken: googleAuthentication.accessToken,
         idToken: googleAuthentication.idToken,
       );
-      return _firebaseAuth
+
+      return await _firebaseAuth
           .signInWithCredential(authCredential)
           .then((r) => right(unit));
     } on PlatformException catch (_) {
@@ -98,7 +116,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   @override
-  Future<void> signOut() async {
+  Future<List<void>> signOut() async {
     return Future.wait([
       _googleSignIn.signOut(),
       _firebaseAuth.signOut(),

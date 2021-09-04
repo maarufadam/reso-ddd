@@ -4,26 +4,25 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kt_dart/kt.dart';
 import 'package:kt_dart/collection.dart';
-import 'package:meta/meta.dart';
 import '../../../domain/notes/i_note_repository.dart';
 import '../../../domain/notes/note.dart';
 import '../../../domain/notes/note_failure.dart';
 
-part 'note_watcher_bloc.freezed.dart';
 part 'note_watcher_event.dart';
 part 'note_watcher_state.dart';
+part 'note_watcher_bloc.freezed.dart';
 
 @injectable
 class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
   final INoteRepository _noteRepository;
 
-  NoteWatcherBloc(this._noteRepository);
+  NoteWatcherBloc(this._noteRepository)
+      : super(const NoteWatcherState.initial());
 
-  StreamSubscription<Either<NoteFailure, KtList<Note>>> _noteStreamSubscription;
-
-  @override
-  NoteWatcherState get initialState => const NoteWatcherState.initial();
+  StreamSubscription<Either<NoteFailure, KtList<Note>>>?
+      _noteStreamSubscription;
 
   @override
   Stream<NoteWatcherState> mapEventToState(
@@ -55,7 +54,7 @@ class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
 
   @override
   Future<void> close() async {
-    await _noteStreamSubscription.cancel();
+    await _noteStreamSubscription?.cancel();
     return super.close();
   }
 }

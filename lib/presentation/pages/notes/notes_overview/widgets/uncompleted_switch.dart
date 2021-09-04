@@ -10,7 +10,8 @@ class UncompletedSwitch extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final uncompletedSwitchState = useState(
-      IconSwitchData(toggle: false, icon: Icon(Icons.indeterminate_check_box)),
+      const IconSwitchData(
+          toggle: false, icon: Icon(Icons.indeterminate_check_box)),
     );
 
     return InkResponse(
@@ -19,14 +20,14 @@ class UncompletedSwitch extends HookWidget {
         s.value = s.value.copyWith(toggle: !s.value.toggle);
         s.value = s.value.toggle
             ? s.value.copyWith(
-                icon: Icon(
+                icon: const Icon(
                 Icons.check_box_outline_blank,
-                key: const Key('outline'),
+                key: Key('outline'),
               ))
             : s.value.copyWith(
-                icon: Icon(
+                icon: const Icon(
                 Icons.indeterminate_check_box,
-                key: const Key('indeterminate'),
+                key: Key('indeterminate'),
               ));
         performAction(context, uncompleted: s.value.toggle);
       },
@@ -41,8 +42,8 @@ class UncompletedSwitch extends HookWidget {
     ).padding(horizontal: 16);
   }
 
-  void performAction(BuildContext context, {@required bool uncompleted}) {
-    context.bloc<NoteWatcherBloc>().add(
+  void performAction(BuildContext context, {required bool uncompleted}) {
+    context.read<NoteWatcherBloc>().add(
           uncompleted
               ? const NoteWatcherEvent.watchUncompletedStarted()
               : const NoteWatcherEvent.watchAllStarted(),

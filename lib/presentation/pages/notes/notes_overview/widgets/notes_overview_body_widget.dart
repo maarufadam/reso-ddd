@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../application/notes/note_watcher/note_watcher_bloc.dart';
-import '../../../../../domain/notes/note.dart';
+
 import 'critical_failure_display_widget.dart';
 import 'error_note_card_widget.dart';
 import 'note_card_widget.dart';

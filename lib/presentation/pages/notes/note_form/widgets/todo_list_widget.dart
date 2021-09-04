@@ -1,21 +1,22 @@
 import 'dart:ui';
 
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:kt_dart/collection.dart';
-import 'package:provider/provider.dart';
+import 'package:kt_dart/kt.dart';
 import '../../../../../application/notes/note_form/note_form_bloc.dart';
 import '../../../../../domain/notes/value_objects.dart';
-import '../misc/build_context_x.dart';
 import '../misc/todo_item_presentation_classes.dart';
+import 'package:provider/provider.dart';
+import '../misc/build_context_x.dart';
 
 class TodoList extends HookWidget {
   const TodoList({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -24,7 +25,7 @@ class TodoList extends HookWidget {
       listeners: [
         BlocListener<NoteFormBloc, NoteFormState>(
           // After the Initialized event
-          condition: (p, c) => p.isEditing != c.isEditing,
+          listenWhen: (p, c) => p.isEditing != c.isEditing,
           listener: (context, state) {
             context.formTodos = state.note.todos.value.fold(
               (_) => mutableListOf<TodoItemPrimitive>(),
@@ -38,7 +39,7 @@ class TodoList extends HookWidget {
           // An example of when we cannot rely on the failure - it happens only when the list contains more than the max limit of items
           // Unlike with EmailAddress, we definitely don't want to make our user remove the additional todos manually.
           // We want to prevent even adding them.
-          condition: (p, c) =>
+          listenWhen: (p, c) =>
               // The only situation where the previous state held an empty todo list and the current state holds a full one is when we're starting
               // to edit a note. In that case, we don't want to show the Flushbar.
               p.note.todos.length != 0 &&
@@ -47,7 +48,7 @@ class TodoList extends HookWidget {
             if (state.note.todos.isFull) {
               FlushbarHelper.createAction(
                 message: 'Want longer lists? Activate premium 🤩',
-                button: FlatButton(
+                button: TextButton(
                   onPressed: () {
                     print('Bought! 🤑');
                   },
@@ -73,7 +74,7 @@ class TodoList extends HookWidget {
             onReorderFinished: (item, from, to, newItems) {
               context.formTodos = newItems.toImmutableList();
               context
-                  .bloc<NoteFormBloc>()
+                  .read<NoteFormBloc>()
                   .add(NoteFormEvent.todosChanged(context.formTodos));
             },
             itemBuilder: (context, itemAnimation, item, index) {
@@ -128,9 +129,9 @@ class StaticTodoTile extends StatelessWidget {
   final double elevation;
 
   const StaticTodoTile({
-    Key key,
-    @required this.todo,
-    double elevation,
+    Key? key,
+    required this.todo,
+    double? elevation,
   })  : elevation = elevation ?? 0,
         super(key: key);
 
@@ -139,7 +140,7 @@ class StaticTodoTile extends StatelessWidget {
     return Slidable(
       actionPane: const SlidableDrawerActionPane(),
       actionExtentRatio: 0.15,
-      secondaryActions: <Widget>[
+      secondaryActions: const <Widget>[
         IconSlideAction(
           caption: 'Delete',
           icon: Icons.delete,
@@ -161,7 +162,7 @@ class StaticTodoTile extends StatelessWidget {
                 value: todo.done,
                 onChanged: (_) {},
               ),
-              trailing: Handle(
+              trailing: const Handle(
                 child: Icon(
                   Icons.list,
                 ),
@@ -169,13 +170,13 @@ class StaticTodoTile extends StatelessWidget {
               title: TextFormField(
                 initialValue: todo.name,
                 enabled: false,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Todo',
                   counterText: '',
                   border: InputBorder.none,
                 ),
                 maxLength: TodoName.maxLength,
-                maxLengthEnforced: true,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
               ),
             ),
           ),
@@ -190,9 +191,9 @@ class TodoTile extends HookWidget {
   final double elevation;
 
   const TodoTile({
-    Key key,
-    @required this.index,
-    double elevation,
+    Key? key,
+    required this.index,
+    double? elevation,
   })  : elevation = elevation ?? 0,
         super(key: key);
 
@@ -213,7 +214,7 @@ class TodoTile extends HookWidget {
           onTap: () {
             context.formTodos = context.formTodos.minusElement(todo);
             context
-                .bloc<NoteFormBloc>()
+                .read<NoteFormBloc>()
                 .add(NoteFormEvent.todosChanged(context.formTodos));
           },
         ),
@@ -233,36 +234,38 @@ class TodoTile extends HookWidget {
                 value: todo.done,
                 onChanged: (value) {
                   context.formTodos = context.formTodos.map((listTodo) =>
-                      listTodo == todo ? todo.copyWith(done: value) : listTodo);
+                      listTodo == todo
+                          ? todo.copyWith(done: value!)
+                          : listTodo);
                   context
-                      .bloc<NoteFormBloc>()
+                      .read<NoteFormBloc>()
                       .add(NoteFormEvent.todosChanged(context.formTodos));
                 },
               ),
-              trailing: Handle(
+              trailing: const Handle(
                 child: Icon(
                   Icons.list,
                 ),
               ),
               title: TextFormField(
                 controller: textEditingController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Todo',
                   counterText: '',
                   border: InputBorder.none,
                 ),
                 maxLength: TodoName.maxLength,
-                maxLengthEnforced: true,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 onChanged: (value) {
                   context.formTodos = context.formTodos.map((listTodo) =>
                       listTodo == todo ? todo.copyWith(name: value) : listTodo);
                   context
-                      .bloc<NoteFormBloc>()
+                      .read<NoteFormBloc>()
                       .add(NoteFormEvent.todosChanged(context.formTodos));
                 },
                 validator: (_) {
                   return context
-                      .bloc<NoteFormBloc>()
+                      .watch<NoteFormBloc>()
                       .state
                       .note
                       .todos

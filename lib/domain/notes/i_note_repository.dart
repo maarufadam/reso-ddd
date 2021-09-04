@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:kt_dart/collection.dart';
+import 'package:kt_dart/kt.dart';
+
 import 'note.dart';
 import 'note_failure.dart';
 

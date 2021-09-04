@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../../../application/notes/note_form/note_form_bloc.dart';
-import '../../../../../domain/core/value_objects.dart';
 import '../../../../../domain/notes/value_objects.dart';
 
 class BodyField extends HookWidget {
   const BodyField({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -27,19 +27,19 @@ class BodyField extends HookWidget {
           padding: const EdgeInsets.all(10),
           child: TextFormField(
             controller: textEditingController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Note',
               counterText: '',
             ),
             maxLength: NoteBody.maxLength,
-            maxLengthEnforced: true,
+            maxLengthEnforcement: MaxLengthEnforcement.enforced,
             maxLines: null,
             minLines: 5,
             onChanged: (value) => context
-                .bloc<NoteFormBloc>()
+                .read<NoteFormBloc>()
                 .add(NoteFormEvent.bodyChanged(value)),
             validator: (_) => context
-                .bloc<NoteFormBloc>()
+                .watch<NoteFormBloc>()
                 .state
                 .note
                 .body

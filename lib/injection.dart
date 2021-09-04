@@ -1,10 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'injection.iconfig.dart';
+import 'package:reso_ddd/injection.config.dart';
 
 final GetIt getIt = GetIt.instance;
 
-@injectableInit
-void configureInjection(String env) {
-  $initGetIt(getIt, environment: env);
-}
+@InjectableInit(generateForDir: ['lib'])
+void configureInjection(String env) => $initGetIt(getIt, environment: env);
