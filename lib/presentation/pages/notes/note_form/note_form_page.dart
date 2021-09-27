@@ -3,17 +3,17 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:provider/provider.dart';
+
 import '../../../../application/notes/note_form/note_form_bloc.dart';
 import '../../../../domain/notes/note.dart';
 import '../../../../injection.dart';
+import '../../../routes/app_router.gr.dart';
+import 'misc/todo_item_presentation_classes.dart';
 import 'widgets/add_todo_tile_widget.dart';
 import 'widgets/body_field_widget.dart';
 import 'widgets/color_field_widget.dart';
 import 'widgets/todo_list_widget.dart';
-import '../../../routes/app_router.gr.dart';
-import 'package:provider/provider.dart';
-
-import 'misc/todo_item_presentation_classes.dart';
 
 class NoteFormPage extends HookWidget {
   final Note? editedNote;

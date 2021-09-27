@@ -20,8 +20,10 @@ class AppWidget extends StatelessWidget {
         routerDelegate: getIt<AppRouter>().delegate(),
         routeInformationParser: getIt<AppRouter>().defaultRouteParser(),
         theme: ThemeData.light().copyWith(
-          primaryColor: Colors.green[800],
-          accentColor: Colors.blueAccent,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: Colors.green[800],
+            secondary: Colors.blueAccent,
+          ),
           appBarTheme: ThemeData.light().appBarTheme.copyWith(
                 brightness: Brightness.dark,
                 color: Colors.green[800],

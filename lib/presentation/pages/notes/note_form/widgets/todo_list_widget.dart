@@ -8,11 +8,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:kt_dart/kt.dart';
+import 'package:provider/provider.dart';
+
 import '../../../../../application/notes/note_form/note_form_bloc.dart';
 import '../../../../../domain/notes/value_objects.dart';
-import '../misc/todo_item_presentation_classes.dart';
-import 'package:provider/provider.dart';
 import '../misc/build_context_x.dart';
+import '../misc/todo_item_presentation_classes.dart';
 
 class TodoList extends HookWidget {
   const TodoList({
@@ -50,7 +51,7 @@ class TodoList extends HookWidget {
                 message: 'Want longer lists? Activate premium 🤩',
                 button: TextButton(
                   onPressed: () {
-                    print('Bought! 🤑');
+                    //TOOD Show Bought! 🤑
                   },
                   child: const Text(
                     'BUY NOW',

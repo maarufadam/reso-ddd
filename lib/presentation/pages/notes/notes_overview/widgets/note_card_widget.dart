@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../injection.dart';
-import '../../../../routes/app_router.gr.dart';
 import 'package:kt_dart/kt.dart';
 
 import '../../../../../application/notes/note_actor/note_actor_bloc.dart';
 import '../../../../../domain/notes/note.dart';
 import '../../../../../domain/notes/todo_item.dart';
+import '../../../../../injection.dart';
+import '../../../../routes/app_router.gr.dart';
 
 class NoteCard extends StatelessWidget {
   const NoteCard({
@@ -106,7 +105,7 @@ class TodoDisplay extends StatelessWidget {
         if (todo.done)
           Icon(
             Icons.check_box,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         if (!todo.done)
           Icon(

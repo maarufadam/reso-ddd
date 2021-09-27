@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'auth_failure.dart';
-import 'value_objects.dart';
 
+import 'auth_failure.dart';
 import 'custom_user.dart';
+import 'value_objects.dart';
 
 abstract class IAuthFacade {
   Future<Option<CustomUser>> getSignedInUser();

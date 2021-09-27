@@ -29,10 +29,11 @@ class CriticalFailureDisplay extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              print('Sending email...');
+              //TODO Send email...
             },
             style: TextButton.styleFrom(
-              textStyle: TextStyle(color: Theme.of(context).accentColor),
+              textStyle:
+                  TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
